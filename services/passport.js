@@ -21,6 +21,7 @@ passport.use(
 			clientID: keys.googleClientID,
 			clientSecret: keys.googleClientSecret,
 			callbackURL: '/auth/google/callback',
+			proxy: true,
 		},
 
 		//this gets passed by google once we share code from ourcallback
