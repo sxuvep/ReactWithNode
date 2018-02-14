@@ -25,17 +25,15 @@ passport.use(
 		},
 
 		//this gets passed by google once we share code from ourcallback
-		(accessToken, refershToken, profile, done) => {
-			User.findOne({ googleId: profile.id }).then(existingUser => {
-				if (existingUser) {
-					//user record already exists
-					//we need to let passport know we are done here
-					done(null, existingUser);
-				} else {
-					//create new instance and save to users collection
-					new User({ googleId: profile.id }).save().then(user => done(null, user));
-				}
-			});
+		async (accessToken, refershToken, profile, done) => {
+			const existingUser = await User.findOne({ googleId: profile.id });
+
+			if (existingUser) {
+				return done(null, existingUser);
+			}
+
+			const user = await new User({ googleId: profile.id }).save();
+			done(null, user);
 		}
 	)
 );
