@@ -5,9 +5,11 @@ const passport = require('passport');
 const keys = require('./config/keys');
 const bodyParser = require('body-parser');
 require('./models/user');
+require('./models/survey');
 require('./services/passport');
 const authRoutes = require('./routes/authRoutes');
 const billingRoutes = require('./routes/billingRoutes');
+const surveyRoutes = require('./routes/surveyRoutes');
 
 //connect mongoose to mongo remote database
 mongoose.connect(keys.mongoURI);
@@ -36,6 +38,9 @@ authRoutes(app);
 
 //call strip billing route handlers here
 billingRoutes(app);
+
+//survery routes
+surveyRoutes(app);
 
 if (process.env.NODE_ENV === 'production') {
 	//exprss will serve up static file assets using static middleware
